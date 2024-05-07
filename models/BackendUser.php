@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "backendUser".
@@ -14,8 +13,10 @@ use yii\web\IdentityInterface;
  * @property string|null $userName
  * @property string $password
  * @property string $authKey
+ *
+ * @property Comment[] $comments
  */
-class BackendUser extends \yii\db\ActiveRecord implements IdentityInterface
+class BackendUser extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -53,25 +54,23 @@ class BackendUser extends \yii\db\ActiveRecord implements IdentityInterface
             'authKey' => 'Auth Key',
         ];
     }
-    public function getAuthKey(){
-        return $this->authKey;
+
+    /**
+     * Gets query for [[Comments]].
+     *
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     */
+    public function getComments()
+    {
+        return $this->hasMany(Comment::class, ['publisher_id' => 'Id']);
     }
-    public function getId(){
-        return $this->Id;
-    }
-    public function validateAuthKey($authKey){
-        return $this->authKey === $authKey;
-    }
-    public static function findIdentity($id){
-        return static::findOne($id);
-    }
-    public static function findIdentityByAccessToken($token, $type = null){
-        throw new NotSupportedException('Token coming ..');
-    }
-    public static function findByUsername($username){
-        return static::findOne(['userName'=> $username]);
-    }
-    public function validatePassword(string $password){
-        return $this->password === $password;
+
+    /**
+     * {@inheritdoc}
+     * @return BackendUserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new BackendUserQuery(get_called_class());
     }
 }

@@ -10,6 +10,9 @@ use Yii;
  * @property string $code
  * @property string $name
  * @property float $ratings
+ * @property int $Id
+ *
+ * @property Comment[] $comments
  */
 class Programming extends \yii\db\ActiveRecord
 {
@@ -27,11 +30,12 @@ class Programming extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'name'], 'required'],
+            [['code', 'name', 'Id'], 'required'],
             [['ratings'], 'number'],
-            [['code'], 'string', 'max' => 2],
+            [['Id'], 'integer'],
+            [['code'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 52],
-            [['code'], 'unique'],
+            [['Id'], 'unique'],
         ];
     }
 
@@ -44,6 +48,17 @@ class Programming extends \yii\db\ActiveRecord
             'code' => 'Code',
             'name' => 'Name',
             'ratings' => 'Ratings',
+            'Id' => 'ID',
         ];
+    }
+
+    /**
+     * Gets query for [[Comments]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComments()
+    {
+        return $this->hasMany(Comment::class, ['post_id' => 'Id']);
     }
 }

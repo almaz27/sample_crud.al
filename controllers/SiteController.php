@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\BackendUser;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -82,6 +83,22 @@ class SiteController extends Controller
 
         $model->password = '';
         return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+    public function actionSignup()
+    {
+        $model = new BackendUser();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->goBack();
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create', [
             'model' => $model,
         ]);
     }
