@@ -54,6 +54,10 @@ $config = [
                 '/update'=>'programming/update'
             ],
         ],
+        // Yii2 TCPDF
+		// 'tcpdf' => [
+		// 	'class' => 'vendor\tcpdf\TCPDF',
+		// ],
         
     ],
     'params' => $params,

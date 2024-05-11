@@ -73,26 +73,42 @@ $this->params['breadcrumbs'][] = $this->title;
         <button type = "button" id = "sendmail">Send</button>
    </form> -->
    <div id="result">
-
-   </div>
-
-    
-
- <?php $this->registerJs("
-    
-    ")?>
-  
    
+   </div>
+   <p>
+        <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Download PDF', ['pdf-creator/index'], ['class' => 'btn btn-primary',]) ?>
+        <!-- <button type="submit" id='pdf'>JS</button> -->
+        
+
+    </p>
+    <?php $this->registerJs("
+        var thead = $('#result table thead tr');
+
+        $(thead).each(function (index) {
+            $(this).find('th').each(function () {
+                let t = $(this).text();
+                $(this).remove('a');
+                $(this).html(t);
+            });
 
 
+        });
+        // collect rows
+        var tbody = $('#result table tbody');
+        var html_t = '<table border=\"1\" cellspacing=\"3\" cellpadding=\"4\">'+'<tr>' + thead.html() + '</tr>' + tbody.html()+'</table>';
 
+        $('#pdf').on(
+            'click',
+            function () {
+                // $.post('pdf-creator/', html_t, function(data){console.log('data')});
+                console.log(html_t);
+            }
+        );
+        ", yii\web\View::POS_READY);
+        ?>
 
-
-
-    
-
-
-
-
+  
 
 </div>
+

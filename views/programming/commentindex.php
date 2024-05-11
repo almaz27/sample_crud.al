@@ -11,16 +11,14 @@ use yii\widgets\Pjax;
 /** @var app\models\CommentSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Comments';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->title = 'Comments';
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comment-index">
 
     <h1><?= Html::encode($model->name.' comments ') ?></h1>
 
-    <p>
-        <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -35,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         //     }
         //  },
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
 
             'Id',
             'status',
@@ -44,19 +42,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'publisher_id',
             //'rate',
             //'post_id',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Comment $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'Id' => $model->Id]);
-                 }
-            ],
+            // [
+            //     'class' => ActionColumn::className(),
+            //     'urlCreator' => function ($action, Comment $model, $key, $index, $column) {
+            //         return Url::toRoute([$action, 'Id' => $model->Id]);
+            //      }
+            // ],
         ],        
 
 
     ]); 
    ?>
+   
+   
 
 
+  
 </div>
+
 
  

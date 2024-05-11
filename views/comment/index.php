@@ -25,14 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
-        'dataProvider' => $comments,
-        // 'filterModel' => $searchModel,
-        'rowOptions'=>function ($model, $index, $widget, $grid) {
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        // 'rowOptions'=>function ($model, $index, $widget, $grid) {
 
-            if (count($model->comments) == 0) {
-                return ['data-pjax'=> '0'];
-            }
-         },
+        //     if (count($model->comments) == 0) {
+        //         return ['data-pjax'=> '0'];
+        //     }
+        //  },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

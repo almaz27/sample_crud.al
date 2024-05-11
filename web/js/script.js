@@ -21,9 +21,11 @@ $('.grid-view tbody tr').on('click', function(){
             'success':function(data){
                 if(!data){
                     console.log(data);  
+                    return;
                 }else{
-                    console.log(data);
                     $('#result').html(data);
+                    return;
+                    // console.log($('table table-striped table-bordered').documentElement.innerHTML);
                 }
             }
         });
@@ -55,3 +57,4 @@ $('.grid-view tbody tr').on('click', function(){
     // });
 
 });
+
