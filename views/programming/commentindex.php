@@ -24,7 +24,9 @@ use yii\widgets\Pjax;
 
 
    <?= GridView::widget([
+        'id' => 'table',
         'dataProvider' => $dataProvider,
+        
         // 'filterModel' => $searchModel,
         // 'rowOptions'=>function ($model, $index, $widget, $grid) {
 
@@ -52,10 +54,66 @@ use yii\widgets\Pjax;
 
 
     ]); 
-   ?>
-   
+   ?><p>
+   <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
+    <!-- Html::a('Download PDF', ['pdf-creator/index'], ['class' => 'btn btn-primary',])  -->
+   <button type="submit" id='pdf'>JS</button>
    
 
+</p>
+<?php $this->registerJs("
+
+
+
+$('#pdf').on('click',function(){
+    var obj = new Object();
+    var title = $('.comment-index h1').html()
+    var textHtml = $('#table').html();
+    
+    if (textHtml !== '' && title !== '') {
+        // showSpinner();
+        obj.title=title;
+        obj.textHtml=textHtml;
+
+        $.ajax(
+            {
+                url: '/yii_crud/web/index.php/pdf-creator/ajax',
+                dataType: 'text',
+                data: obj,
+                type: 'post',
+                success: function (ans) {
+
+                    // var result = JSON.parse(ans);
+                    // var name = result.NAME;
+                    // var path = result.PATH;
+                    console.log(ans);
+                    // console.log(result.NAME);
+
+                    // setTimeout(function () {
+                    //     if(name === 'send'){
+
+                    //     }else if(name === 'print'){
+                    //         var file = window.open(path);
+                    //         file.print();
+                    //     }else{
+                    //         window.open(path);
+                    //     }
+                    //     hideSpinner();
+                    // }, 1000);
+                },
+                error:function(data){
+                    console.log('Fail');
+                    console.log(data);
+                }
+            });
+    }
+});
+", yii\web\View::POS_READY);
+?>
+
+   
+   
+   
 
   
 </div>

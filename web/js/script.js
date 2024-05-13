@@ -58,3 +58,5 @@ $('.grid-view tbody tr').on('click', function(){
 
 });
 
+
+

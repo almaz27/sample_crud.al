@@ -151,6 +151,7 @@ class ProgrammingController extends Controller
             'pagination' => [
             'pageSize' => 10,
             ],
+            'sort'=>false,
             ]);
 
             // $searchModel = new CommentSearch();
