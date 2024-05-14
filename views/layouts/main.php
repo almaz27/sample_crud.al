@@ -42,6 +42,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => 'Backend Users', 'url' => ['/backend-user/index']],
             ['label' => 'Comments', 'url' => ['/comment/index']],
             ['label' => 'Posts', 'url' => ['/programming/index']],
+            ['label'=> 'Stock Info', 'url'=>['/nomadex/stock']],
             Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]
                 : '<li class="nav-item">'

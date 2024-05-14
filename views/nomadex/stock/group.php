@@ -15,15 +15,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>Hello</p>
 
-    <table>
+    <table class="table table-striped table-bordered">
   <?php foreach($model as $key): ?>
     <tr>
-        <th>Status</th>
-        <th>CLient ID</th>
+        <th><?= $key->attributeLabels()['client_id']?></th>
+        <th><?= $key->attributeLabels()['status']?></th>
+        <th>Quantity</th>
     </tr>
     <tr>
-        <td><?= $key->status; ?></td>
         <td><?= $key->client_id; ?></td>
+        <td><?= $key->status; ?></td>
+        <td><?= $key->cnt; ?></td>
 
     </tr>
     <?php endforeach; ?>

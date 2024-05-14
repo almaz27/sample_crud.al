@@ -67,6 +67,15 @@ use Yii;
  */
 class Stock extends \yii\db\ActiveRecord
 {
+    public $cnt = 0;
+    /**
+     * {@inheritdoc}
+     * @return StockQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new StockQuery(get_called_class());
+    }
     /**
      * {@inheritdoc}
      */
@@ -168,12 +177,5 @@ class Stock extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     * @return StockQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new StockQuery(get_called_class());
-    }
+    
 }
