@@ -84,10 +84,10 @@ $('#pdf').on('click',function(){
                 success: function (ans) {
 
                     // var result = JSON.parse(ans);
-                    // var name = result.NAME;
-                    // var path = result.PATH;
-                    console.log(ans);
-                    // console.log(result.NAME);
+                    // var name = ans.NAME;
+                    // var path = ans.PATH;
+                    // console.log(ans);
+                    console.log(result.NAME);
 
                     // setTimeout(function () {
                     //     if(name === 'send'){
@@ -98,7 +98,7 @@ $('#pdf').on('click',function(){
                     //     }else{
                     //         window.open(path);
                     //     }
-                    //     hideSpinner();
+                    //     // hideSpinner();
                     // }, 1000);
                 },
                 error:function(data){

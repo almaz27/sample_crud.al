@@ -17,7 +17,8 @@ class PdfCreatorController extends \yii\web\Controller
 
 
                 // create new PDF document
-                $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+                $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
+                
 
                 // set document information
                 $pdf->SetCreator(PDF_CREATOR);
@@ -143,9 +144,27 @@ class PdfCreatorController extends \yii\web\Controller
                 // add a page
                 $pdf->AddPage();
 
-                $strHtml = $textHtml;
+                $strHtml =mb_convert_encoding($textHtml, 'UTF-8');
+                $without_br = str_replace("<br>", " ", $strHtml);
+                // $without_br = <<<EOF
+                // <div style="background-color:#880000;color:white;">
+                // Hello World!<br />
+                // Hello
+                // </div>
+                // <pre style="background-color:#336699;color:white;">
+                // int main() {
+                //     printf("HelloWorld");
+                //     return 0;
+                // }
+                // </pre>
+                // <tt>Monospace font</tt>, normal font, <tt>monospace font</tt>, normal font.
+                // <br />
+                // <div style="background-color:#880000;color:white;">DIV LEVEL 1<div style="background-color:#008800;color:white;">DIV LEVEL 2</div>DIV LEVEL 1</div>
+                // <br />
+                // <span style="background-color:#880000;color:white;">SPAN LEVEL 1 <span style="background-color:#008800;color:white;">SPAN LEVEL 2</span> SPAN LEVEL 1</span>
+                // EOF;
 
-                $pdf->WriteHTML($strHtml, true, false, false);
+                $pdf->WriteHTML($without_br, true, false, false);
 
                 $pdf->Output($title. '.pdf', 'F');
                 // /Applications/MAMP/htdocs/yii_crud/web/JavaScript comments .pdf
@@ -153,11 +172,11 @@ class PdfCreatorController extends \yii\web\Controller
 
                 if (file_exists($_SERVER['DOCUMENT_ROOT'] . $title . '.pdf')) {
                     $arResult['NAME'] = 'print';
-                    $arResult['PATH'] = $title . '.pdf';
+                    $arResult['PATH'] = '/Applications/MAMP/htdocs/yii_crud/web/JavaScript comments .pdf';
                     echo json_encode($arResult);
                 }
 
-            return $this->render('index');
+
             }
 
             // return Yii::$app->response->sendFile($completePath, $title . '.pdf', ['inline'=>true]);

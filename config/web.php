@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$nomadex=require __DIR__.'/nomadexdb.php';
 
 $config = [
     'id' => 'basic',
@@ -42,6 +43,7 @@ $config = [
             ],
         ],
         'db' => $db,
+        'ndb'=>$nomadex,
         
         'urlManager' => [
             'enablePrettyUrl' => true,
