@@ -23,6 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Client Grouped Info', ['group'], ['class' => 'btn btn-primary']) ?>
     </p>
+    <p>
+        <?= Html::a('Client Grouped Inbound Info', ['client-indounds-total-available','client_id'=>103,'statusAvailable'=>3], ['class' => 'btn btn-primary']) ?>
+    </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

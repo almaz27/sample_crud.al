@@ -31,4 +31,5 @@ class InboundOrdersQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+    
 }

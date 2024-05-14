@@ -68,6 +68,7 @@ use Yii;
 class Stock extends \yii\db\ActiveRecord
 {
     public $cnt = 0;
+    public $total = 0;
     /**
      * {@inheritdoc}
      * @return StockQuery the active query used by this AR class.
@@ -176,6 +177,8 @@ class Stock extends \yii\db\ActiveRecord
             'deleted' => 'Deleted',
         ];
     }
+
+    
 
     
 }

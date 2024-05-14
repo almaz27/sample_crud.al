@@ -125,6 +125,25 @@ class StockController extends Controller
         ]);
         
     }
+    public function actionClientIndoundsTotalAvailable($client_id,$statusAvailable){
+        // $clientsInboundsTotalAvailable = Stock::find()
+        //                                     ->choose()
+        //                                     ->client($client_id)
+        //                                     ->statusAvailable($statusAvailable)
+        //                                     ->addGroupBy('inbound_order_id')
+        //                                     ->all();
+        $clientsInboundsTotalAvailable = Stock::find()
+                                                ->select(["client_id",
+                                                            "status_availability",
+                                                            "inbound_order_id",
+                                                            "COUNT(*) AS total"])
+                                                ->andWhere(["client_id"=> $client_id,
+                                                            "status_availability"=>$statusAvailable])
+                                                ->groupBy("inbound_order_id")->all();
+                                            return $this->render('client-group',
+                                            ['rows' => $clientsInboundsTotalAvailable]);
+
+    }
 
     /**
      * Finds the Stock model based on its primary key value.
