@@ -45,6 +45,7 @@ use Yii;
  */
 class InboundOrders extends \yii\db\ActiveRecord
 {
+    public $quantity = 0;
     /**
      * {@inheritdoc}
      */

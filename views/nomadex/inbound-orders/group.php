@@ -16,17 +16,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>Hello</p>
 
     <table class="table table-striped table-bordered">
-  <?php foreach($groups as $model): ?>
+  
     <tr>
-        <th><?= $model->attributeLabels()['client_id']?></th>
-        <th><?= $model->attributeLabels()['status']?></th>
-        <th><?= $model->attributeLabels()['order_number']?></th>
+        <th>client_id</th>
+        <th>status</th>
+        <th>order number</th>
+        <th>Quantity</th>
     </tr>
+    <?php foreach($groups as $model): ?>
     <tr>
         <td><?= $model->client_id; ?></td>
         <td><?= $model->status; ?></td>
         <td><?= $model->order_number; ?></td>
-
+        <td><?= $model->quantity; ?></td>
     </tr>
     <?php endforeach; ?>
     </table>

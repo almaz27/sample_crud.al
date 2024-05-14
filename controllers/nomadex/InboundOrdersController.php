@@ -117,7 +117,7 @@ class InboundOrdersController extends Controller
     }
     public function actionGroup(){
         $groups = InboundOrders::find()
-                        ->select(['client_id','status','order_number'])
+                        ->select(['client_id','status','order_number','COUNT(*) as quantity'])
                         ->groupBy('client_id,status,order_number')
                         ->all();
                         return $this->render('group', ['groups'=>$groups]);
