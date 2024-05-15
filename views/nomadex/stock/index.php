@@ -1,10 +1,12 @@
 <?php
 
 use app\models\nomadex\Stock;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\models\nomadex\StockSearch $searchModel */
@@ -23,7 +25,37 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Client Grouped Info', ['group'], ['class' => 'btn btn-primary']) ?>
     </p>
+
     <p>
+    <?php 
+        $form = ActiveForm::begin([
+        'id' => 'login-form',
+        'options' => ['class' => 'form-horizontal'],
+        'action'=>'client-indounds-total-available',
+        'method'=>'POST']) 
+    ?><?= 
+        $form->field($model, 'status_availability')->dropdownList(
+                                                        $status,
+                                                        ['prompt'=>'Select Status'])
+                                                    ?>
+        <?= 
+        $form->field($model, 'client_id')->dropdownList(
+                                                        $clients,
+                                                        ['prompt'=>'Select Client'])
+                                                    ?>
+                                               
+    <div class="form-group">
+        <?= Html::dropDownList('bound',$bounds,$bounds) ?>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-1 col-lg-11">
+            <?= Html::submitButton('Вход', ['class' => 'btn btn-primary']) ?>
+
+        </div>
+    </div>
+<?php 
+ActiveForm::end() 
+?>
         <?= Html::a('Client Grouped Inbound Info', ['client-indounds-total-available','client_id'=>103,'statusAvailable'=>3], ['class' => 'btn btn-primary']) ?>
     </p>
 

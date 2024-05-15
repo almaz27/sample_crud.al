@@ -5,6 +5,7 @@ namespace app\controllers\nomadex;
 use app\models\nomadex\Stock;
 use app\models\nomadex\StockSearch;
 use app\models\nomadex\StockQuery;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -41,10 +42,35 @@ class StockController extends Controller
     {
         $searchModel = new StockSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $model = new Stock();
+
+        $statusArray = Stock::find()->select('status_availability')->distinct(true)->asArray()->all();
+        $status = [];
+        $i=0;
+        foreach ($statusArray as $sta) {
+            $status[$i] = $sta['status_availability'];
+            $i++;
+        }
+        $clientArray = Stock::find()->select('client_id')->distinct(true)->asArray()->all();
+        $clients = [];
+        $j=0;
+        foreach ($clientArray as $sta) {
+            $clients[$j] = $sta['client_id'];
+            $j++;
+        }
+        $bound = [
+            '0'=>'inbound_order_id',
+            '1'=> 'outbound_order_id'
+        ];
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model'=>$model,
+            'status'=> $status,
+            'clients'=> $clients,
+            'bounds'=> $bound
         ]);
     }
 
@@ -125,7 +151,7 @@ class StockController extends Controller
         ]);
         
     }
-    public function actionClientIndoundsTotalAvailable($client_id,$statusAvailable){
+    public function actionClientIndoundsTotalAvailable($client_id, $statusAvailable){
         // $clientsInboundsTotalAvailable = Stock::find()
         //                                     ->choose()
         //                                     ->client($client_id)
@@ -140,6 +166,7 @@ class StockController extends Controller
                                                 ->andWhere(["client_id"=> $client_id,
                                                             "status_availability"=>$statusAvailable])
                                                 ->groupBy("inbound_order_id")->all();
+        
                                             return $this->render('client-group',
                                             ['rows' => $clientsInboundsTotalAvailable]);
 
