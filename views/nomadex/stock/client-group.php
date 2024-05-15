@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <tr>
         <td><?= $row->client_id; ?></td>
-        <td><?= $row->status_availability; ?></td>
+        <td><?= $row->a; ?></td>
         <td><?= $row->inbound_order_id; ?></td>
         
         <td><?= $row->total; ?></td>

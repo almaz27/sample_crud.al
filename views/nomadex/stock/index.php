@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\bootstrap5\Dropdown;
+use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\models\nomadex\StockSearch $searchModel */
@@ -27,7 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Client Grouped Inbound Info', ['client-indounds-total-available','client_id'=>103,'statusAvailable'=>3], ['class' => 'btn btn-primary']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<ul>
+    <?php foreach($status as $value): ?>
+    <li><label>Name</label>: <?= Html::encode($value)?></li>
+    <?php endforeach;?>
+
+</ul>
+<
+    
+</div>
+
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -103,3 +115,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+

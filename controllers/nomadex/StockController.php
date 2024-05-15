@@ -8,6 +8,7 @@ use app\models\nomadex\StockQuery;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * StockController implements the CRUD actions for Stock model.
@@ -41,11 +42,33 @@ class StockController extends Controller
     {
         $searchModel = new StockSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $model = new Stock();
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+
+        $status_availability = $model->find()->select('status_availability')->distinct()->all();
+        $arr = array();
+        $i=0;
+        foreach ($status_availability as $key => $value) {
+            # code...
+            $arr[$i] = $value->status_availability;
+            $i++;
+        }
+
+        $clients = $model->find()->select('client_id')->distinct()->all();
+        $bounds = ['outbound_order_id','inbound_order_id'];
+        if($this->request->isGet){
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'status'=> $arr,
+                'clients_id'=> $clients,
+                'bounds'=> $bounds,
+                'model'=>$model
+
+                
+            ]);
+        }
+        
     }
 
     /**
@@ -125,7 +148,9 @@ class StockController extends Controller
         ]);
         
     }
-    public function actionClientIndoundsTotalAvailable($client_id,$statusAvailable){
+    public function actionClientIndoundsTotalAvailable($client_id,$statusAvailable,$bound){
+        
+        
         // $clientsInboundsTotalAvailable = Stock::find()
         //                                     ->choose()
         //                                     ->client($client_id)
@@ -135,13 +160,13 @@ class StockController extends Controller
         $clientsInboundsTotalAvailable = Stock::find()
                                                 ->select(["client_id",
                                                             "status_availability",
-                                                            "inbound_order_id",
+                                                            strval($bound),
                                                             "COUNT(*) AS total"])
                                                 ->andWhere(["client_id"=> $client_id,
                                                             "status_availability"=>$statusAvailable])
-                                                ->groupBy("inbound_order_id")->all();
+                                                ->groupBy(strval($bound))->all();
                                             return $this->render('client-group',
-                                            ['rows' => $clientsInboundsTotalAvailable]);
+                                            ['rows' => $clientsInboundsTotalAvailable,'bound'=>$bound]);
 
     }
 
