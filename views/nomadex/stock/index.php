@@ -29,11 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
     <?php 
         $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'options' => ['class' => 'form-horizontal'],
-        'action'=>'client-indounds-total-available',
-        'method'=>'POST']) 
-    ?><?= 
+            'id' => 'login-form',
+            'options' => ['class' => 'form-horizontal'],
+            'action'=> ['client-indounds-total-available', 
+                        'statusAvailable' =>yii\helpers\BaseHtml::getAttributeValue($model,'status_availability'),
+                        'client_id' =>yii\helpers\BaseHtml::getAttributeValue($model,'client_id')],
+            'method'=>'POST']) ?>
+    <?= 
         $form->field($model, 'status_availability')->dropdownList(
                                                         $status,
                                                         ['prompt'=>'Select Status'])
@@ -44,8 +46,24 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ['prompt'=>'Select Client'])
                                                     ?>
                                                
-    <div class="form-group">
-        <?= Html::dropDownList('bound',$bounds,$bounds) ?>
+    <div class="form-group field-stock-bound">
+        <label for="stock-bound" class="control-label"> Out/Inbound-Order-ID</label>
+        <?=Html::dropDownList('bound',
+        null,
+    	[
+    		'inbound_order_id' => 'Inbound Order Id',
+    		'outbound_order_id' => 'Outbound Order Id',
+    	],
+    	[
+    		'prompt' => [
+    			'text' => 'Select Bound',
+    			'options' => []
+    		],
+    		'id' => 'criteriaSelector',
+    		'class' => 'form-control',
+    		'required' => 'required',
+    	]); 
+        ?>
     </div>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
@@ -56,7 +74,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php 
 ActiveForm::end() 
 ?>
-        <?= Html::a('Client Grouped Inbound Info', ['client-indounds-total-available','client_id'=>103,'statusAvailable'=>3], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(
+            'Client Grouped Inbound Info', 
+            ['client-indounds-total-available','client_id'=>103,'statusAvailable'=>3], 
+            ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

@@ -13,22 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stock-group">
 
-    <p>Hello</p>
-
-    <table class="table table-striped table-bordered">
-  <?php foreach($model as $key): ?>
-    <tr>
-        <th><?= $key->attributeLabels()['client_id']?></th>
-        <th><?= $key->attributeLabels()['status']?></th>
-        <th>Quantity</th>
-    </tr>
-    <tr>
-        <td><?= $key->client_id; ?></td>
-        <td><?= $key->status; ?></td>
-        <td><?= $key->cnt; ?></td>
-
-    </tr>
-    <?php endforeach; ?>
-    </table>
+   <p><?php echo 'Hello'?></p>
+   <p><?php echo $back['client_id'] ?></p>
 
 </div>
