@@ -49,32 +49,32 @@ class StockController extends Controller
         $status = [];
         $clients = [];
         $bound = [
-            '0'=>'inbound_order_id',
-            '1'=> 'outbound_order_id'
+            '0' => 'inbound_order_id',
+            '1' => 'outbound_order_id'
         ];
         foreach ($statusArray as $sta) {
-            if($sta['status_availability']==2){
+            if ($sta['status_availability'] == 2) {
                 $status[strval($sta['status_availability'])] = "Доступен";
             }
-            if($sta['status_availability']==3){
+            if ($sta['status_availability'] == 3) {
                 $status[strval($sta['status_availability'])] = "Не доступен";
             }
-            
+
         }
         foreach ($clientArray as $sta) {
             $clients[strval($sta['client_id'])] = $sta['client_id'];
-            
+
         }
-        
+
 
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model'=>$model,
-            'status'=> $status,
-            'clients'=> $clients,
-            'bounds'=> $bound
+            'model' => $model,
+            'status' => $status,
+            'clients' => $clients,
+            'bounds' => $bound
         ]);
     }
 
@@ -146,27 +146,38 @@ class StockController extends Controller
 
         return $this->redirect(['index']);
     }
-   
-    public function actionClientIndoundsTotalAvailable(){
-        if ($this->request->isPost){    
 
+    public function actionClientIndoundsTotalAvailable()
+    {
+
+        if ($this->request->isPost) {
             $stock = $this->request->post('Stock');
             $stock['bound'] = $this->request->post('bound');
 
-            if($this->request->post('bound')=='inbound_order_id'){
+            if ($this->request->post('bound') == 'inbound_order_id') {
                 $clientsInboundsTotalAvailable = Stock::find()
                     ->chooseInbound()
                     ->statusAvailable($stock['status_availability'])
                     ->client($stock['client_id'])
                     ->addGroupBy($stock['bound'])
                     ->all();
-
-                return $this->render(
-                    'group',[
-                    'rows'=>$clientsInboundsTotalAvailable]
-                );
+                if ($this->request->isAjax) {
+                    return $this->renderAjax(
+                        'groupajax',
+                        [
+                            'rows' => $clientsInboundsTotalAvailable
+                        ]
+                    );
+                } else {
+                    return $this->render(
+                        'group',
+                        [
+                            'rows' => $clientsInboundsTotalAvailable
+                        ]
+                    );
+                }
             }
-            if($this->request->post('bound')=='outbound_order_id'){
+            if ($this->request->post('bound') == 'outbound_order_id') {
                 $clientsInboundsTotalAvailable = Stock::find()
                     ->chooseOutbound()
                     ->statusAvailable($stock['status_availability'])
@@ -174,15 +185,27 @@ class StockController extends Controller
                     ->addGroupBy($stock['bound'])
                     ->all();
 
-                return $this->render(
-                    'group',[
-                    'rows'=>$clientsInboundsTotalAvailable]
-                );
+                    if ($this->request->isAjax) {
+                        return $this->renderAjax(
+                            'groupajax',
+                            [
+                                'rows' => $clientsInboundsTotalAvailable
+                            ]
+                        );
+                    } else {
+                        return $this->render(
+                            'group',
+                            [
+                                'rows' => $clientsInboundsTotalAvailable
+                            ]
+                        );
+                    }
             }
 
-       
+
         }
-        
+
+
 
     }
 

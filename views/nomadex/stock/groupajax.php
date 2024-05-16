@@ -12,9 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="stock-group" id="test">
-
-
-
     <table class="table table-striped table-bordered">
     
     <tr>

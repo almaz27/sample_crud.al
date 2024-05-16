@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php 
         $form = ActiveForm::begin([
-        
+            'id'=> 'stock-group',
             'options' => ['class' => 'form-horizontal'],
             'action'=> ['client-indounds-total-available', 
                         'statusAvailable' =>yii\helpers\BaseHtml::getAttributeValue($model,'status_availability'),
@@ -70,6 +70,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </div>
     </div>
+    <div id="result-of-query">
+
+    </div>
+
 <?php ActiveForm::end() ?>
      <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
