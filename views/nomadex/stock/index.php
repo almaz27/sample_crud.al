@@ -20,30 +20,29 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Stock', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Add item to stock', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <p>
-        <?= Html::a('Client Grouped Info', ['group'], ['class' => 'btn btn-primary']) ?>
-    </p>
-
-    <p>
+    
     <?php 
         $form = ActiveForm::begin([
-            'id' => 'login-form',
+        
             'options' => ['class' => 'form-horizontal'],
             'action'=> ['client-indounds-total-available', 
                         'statusAvailable' =>yii\helpers\BaseHtml::getAttributeValue($model,'status_availability'),
-                        'client_id' =>yii\helpers\BaseHtml::getAttributeValue($model,'client_id')],
+                        'client_id' =>yii\helpers\BaseHtml::getAttributeValue($model,'client_id'),
+                        ],
             'method'=>'POST']) ?>
     <?= 
         $form->field($model, 'status_availability')->dropdownList(
                                                         $status,
                                                         ['prompt'=>'Select Status'])
+                                                        ->label('Availability status: ',['class'=>'label-class'])
                                                     ?>
         <?= 
         $form->field($model, 'client_id')->dropdownList(
                                                         $clients,
                                                         ['prompt'=>'Select Client'])
+                                                        ->label('Client: ',['class'=>'label-class'])
                                                     ?>
                                                
     <div class="form-group field-stock-bound">
@@ -67,20 +66,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Вход', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Show Result', ['class' => 'btn btn-primary']) ?>
 
         </div>
     </div>
-<?php 
-ActiveForm::end() 
-?>
-        <?= Html::a(
-            'Client Grouped Inbound Info', 
-            ['client-indounds-total-available','client_id'=>103,'statusAvailable'=>3], 
-            ['class' => 'btn btn-primary']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<?php ActiveForm::end() ?>
+     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

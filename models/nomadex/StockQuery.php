@@ -36,9 +36,14 @@ class StockQuery extends \yii\db\ActiveQuery
         return parent::groupBy($db);
     }
     
-    public function choose(){
-        $subQuery = $this->select('COUNT(*)')->from('Stock');
-        $this->select(["client_id","status_available","inbound_order_id","total"=>$subQuery]);
+    public function chooseInbound( ){
+        $subQuery = $this->select('COUNT(*) as total');
+        $this->select(["client_id", "status_availability", "inbound_order_id", "COUNT(*) as total"]);
+        return $this;
+    }
+    public function chooseOutbound( ){
+        $subQuery = $this->select('COUNT(*) as total');
+        $this->select(["client_id","status_availability","outbound_order_id","COUNT(*) as total"]);
         return $this;
     }
     public function statusAvailable($status){
@@ -54,6 +59,7 @@ class StockQuery extends \yii\db\ActiveQuery
     $this->groupBy($columns);
     return $this;
    }
+
 
 
 }
