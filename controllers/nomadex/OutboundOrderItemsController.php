@@ -2,18 +2,18 @@
 
 namespace app\controllers\nomadex;
 
-use app\models\nomadex\Stock;
-use app\models\nomadex\StockSearch;
-use app\models\nomadex\StockQuery;
-use yii\helpers\ArrayHelper;
+use app\models\nomadex\OutboundOrderItems;
+use app\models\nomadex\OutboundOrderItemsSearch;
+use app\models\nomadex\OutboundForm;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * StockController implements the CRUD actions for Stock model.
+ * OutboundOrderItemsController implements the CRUD actions for OutboundOrderItems model.
  */
-class StockController extends Controller
+class OutboundOrderItemsController extends Controller
 {
     /**
      * @inheritDoc
@@ -34,53 +34,25 @@ class StockController extends Controller
     }
 
     /**
-     * Lists all Stock models.
+     * Lists all OutboundOrderItems models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new StockSearch();
+        $searchModel = new OutboundOrderItemsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $model = new Stock();
-
-        $statusArray = Stock::find()->select('status_availability')->distinct(true)->asArray()->all();
-        $clientArray = Stock::find()->select('client_id')->distinct(true)->asArray()->all();
-        $status = [];
-        $clients = [];
-        $bound = [
-            '0' => 'inbound_order_id',
-            '1' => 'outbound_order_id'
-        ];
-        foreach ($statusArray as $sta) {
-            if ($sta['status_availability'] == 2) {
-                $status[strval($sta['status_availability'])] = "Доступен";
-            }
-            if ($sta['status_availability'] == 3) {
-                $status[strval($sta['status_availability'])] = "Не доступен";
-            }
-
-        }
-        foreach ($clientArray as $sta) {
-            $clients[strval($sta['client_id'])] = $sta['client_id'];
-
-        }
+        $model = new OutboundForm();    
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $model,
-            'status' => $status,
-            'clients' => $clients,
-            'bounds' => $bound
+            'model'=> $model,
         ]);
-    }
-    public function actionGridView(){
-        
     }
 
     /**
-     * Displays a single Stock model.
+     * Displays a single OutboundOrderItems model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -93,13 +65,13 @@ class StockController extends Controller
     }
 
     /**
-     * Creates a new Stock model.
+     * Creates a new OutboundOrderItems model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Stock();
+        $model = new OutboundOrderItems();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -115,7 +87,7 @@ class StockController extends Controller
     }
 
     /**
-     * Updates an existing Stock model.
+     * Updates an existing OutboundOrderItems model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -135,7 +107,7 @@ class StockController extends Controller
     }
 
     /**
-     * Deletes an existing Stock model.
+     * Deletes an existing OutboundOrderItems model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -147,79 +119,71 @@ class StockController extends Controller
 
         return $this->redirect(['index']);
     }
-
-    public function actionClientIndoundsTotalAvailable()
+    // SELECT product_name, SUM(accepted_qty) as accepted_qty, SUM(expected_qty) as expected_qty, status 
+    // from outbound_order_items 
+    // WHERE status=11 
+    // GROUP by product_name;
+    public function actionProductNameQuantityStatus()
     {
-
+        
+        $post = $this->request->post();
+        // return $this->render('group',['post'=>$post]);
         if ($this->request->isPost) {
-            $stock = $this->request->post('Stock');
-            $stock['bound'] = $this->request->post('bound');
-
-            if ($this->request->post('bound') == 'inbound_order_id') {
-                $clientsInboundsTotalAvailable = Stock::find()
-                    ->chooseInbound()
-                    ->statusAvailable($stock['status_availability'])
-                    ->client($stock['client_id'])
-                    ->addGroupBy($stock['bound'])
+            // $post['OutboundForm']['status']
+            if ($post['OutboundForm']['status'] == '1') {
+                $productsOutboundAvailableQuantity = OutboundOrderItems::find()
+                    ->choose()
+                    ->available()
+                    ->byProduct()
                     ->all();
                 if ($this->request->isAjax) {
                     return $this->renderAjax(
                         'groupajax',
                         [
-                            'rows' => $clientsInboundsTotalAvailable
-                        ]
+                            'rows' => $productsOutboundAvailableQuantity]
                     );
                 } else {
                     return $this->render(
                         'group',
                         [
-                            'rows' => $clientsInboundsTotalAvailable
-                        ]
+                            'rows' => $productsOutboundAvailableQuantity]
                     );
                 }
-            }
-            if ($this->request->post('bound') == 'outbound_order_id') {
-                $clientsInboundsTotalAvailable = Stock::find()
-                    ->chooseOutbound()
-                    ->statusAvailable($stock['status_availability'])
-                    ->client($stock['client_id'])
-                    ->addGroupBy($stock['bound'])
+            }elseif ($post['OutboundForm']['status']=='0') {
+                $productsOutboundAvailableQuantity = OutboundOrderItems::find()
+                    ->choose()
+                    ->notAvailable()
+                    ->byProduct()
                     ->all();
-
-                    if ($this->request->isAjax) {
-                        return $this->renderAjax(
-                            'groupajax',
-                            [
-                                'rows' => $clientsInboundsTotalAvailable
-                            ]
-                        );
-                    } else {
-                        return $this->render(
-                            'group',
-                            [
-                                'rows' => $clientsInboundsTotalAvailable
-                            ]
-                        );
-                    }
-            }
-
+                if ($this->request->isAjax) {
+                    return $this->renderAjax(
+                        'groupajax',
+                        [
+                            'rows' => $productsOutboundAvailableQuantity]
+                    );
+                } else {
+                    return $this->render(
+                        'group',
+                        [
+                            'rows' => $productsOutboundAvailableQuantity]
+                    );
+                }
 
         }
 
-
-
+    
     }
-
+}
     /**
-     * Finds the Stock model based on its primary key value.
+     * Finds the OutboundOrderItems model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Stock the loaded model
+     * @return OutboundOrderItems the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Stock::findOne(['id' => $id])) !== null) {
+        if (($model = OutboundOrderItems::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

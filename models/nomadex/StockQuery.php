@@ -37,12 +37,12 @@ class StockQuery extends \yii\db\ActiveQuery
     }
     
     public function chooseInbound( ){
-        $subQuery = $this->select('COUNT(*) as total');
+        // $subQuery = $this->select('COUNT(*) as total');
         $this->select(["client_id", "status_availability", "inbound_order_id", "COUNT(*) as total"]);
         return $this;
     }
     public function chooseOutbound( ){
-        $subQuery = $this->select('COUNT(*) as total');
+        // $subQuery = $this->select('COUNT(*) as total');
         $this->select(["client_id","status_availability","outbound_order_id","COUNT(*) as total"]);
         return $this;
     }

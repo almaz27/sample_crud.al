@@ -39,11 +39,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Backend Users', 'url' => ['/backend-user/index']],
-            ['label' => 'Comments', 'url' => ['/comment/index']],
-            ['label' => 'Posts', 'url' => ['/programming/index']],
+            // ['label' => 'Backend Users', 'url' => ['/backend-user/index']],
+            // ['label' => 'Comments', 'url' => ['/comment/index']],
+            // ['label' => 'Posts', 'url' => ['/programming/index']],
             ['label'=> 'Stock Info', 'url'=>['/nomadex/stock/index']],
             ['label'=> 'Inbound Info', 'url'=>['/nomadex/inbound-orders/index']],
+            ['label'=> 'Outbound Order Items', 'url'=>['/nomadex/outbound-order-items/index']],
             Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]
                 : '<li class="nav-item">'

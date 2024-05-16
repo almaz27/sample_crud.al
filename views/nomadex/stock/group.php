@@ -12,11 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="stock-group" id="test">
-
-
-
     <table class="table table-striped table-bordered">
-    
     <tr>
         <th><?= Html::encode($rows[0]->attributeLabels()['client_id'])?></th>
         <th><?= Html::encode($rows[0]->attributeLabels()['status_availability'])?></th>
