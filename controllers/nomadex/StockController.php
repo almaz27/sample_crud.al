@@ -3,8 +3,10 @@
 namespace app\controllers\nomadex;
 
 use app\models\nomadex\Stock;
+use app\models\nomadex\StockForm;
 use app\models\nomadex\StockSearch;
 use app\models\nomadex\StockQuery;
+use PHPUnit\Util\Type;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -15,6 +17,35 @@ use yii\filters\VerbFilter;
  */
 class StockController extends Controller
 {
+    // public function __construct(Type $var = null) {
+    //     $this->rep = $var;
+    // }
+    public function actionClientBoundsTotalAvailable()
+    {
+        if (!$this->request->isPost) {
+            return "";
+        }
+        $stockForm = new StockForm();
+
+        if($stockForm->load($this->request->post())) {
+            $stock = (new Stock())->getWithTotalBound(
+                $stockForm->client_id,
+                $stockForm->status_availability,
+                $stockForm->bound,
+            );
+            return $this->renderAjax('groupajax',[
+                'rows'=>$stock,
+                'model'=>$stockForm ]
+            );
+        }
+
+        
+
+        
+        
+    }
+
+    
     /**
      * @inheritDoc
      */
@@ -42,7 +73,7 @@ class StockController extends Controller
     {
         $searchModel = new StockSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $model = new Stock();
+        $model = new StockForm();
 
         $statusArray = Stock::find()->select('status_availability')->distinct(true)->asArray()->all();
         $clientArray = Stock::find()->select('client_id')->distinct(true)->asArray()->all();
@@ -91,7 +122,7 @@ class StockController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
+    
     /**
      * Creates a new Stock model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -148,67 +179,7 @@ class StockController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionClientIndoundsTotalAvailable()
-    {
-
-        if ($this->request->isPost) {
-            $stock = $this->request->post('Stock');
-            $stock['bound'] = $this->request->post('bound');
-
-            if ($this->request->post('bound') == 'inbound_order_id') {
-                $clientsInboundsTotalAvailable = Stock::find()
-                    ->chooseInbound()
-                    ->statusAvailable($stock['status_availability'])
-                    ->client($stock['client_id'])
-                    ->addGroupBy($stock['bound'])
-                    ->all();
-                if ($this->request->isAjax) {
-                    return $this->renderAjax(
-                        'groupajax',
-                        [
-                            'rows' => $clientsInboundsTotalAvailable
-                        ]
-                    );
-                } else {
-                    return $this->render(
-                        'group',
-                        [
-                            'rows' => $clientsInboundsTotalAvailable
-                        ]
-                    );
-                }
-            }
-            if ($this->request->post('bound') == 'outbound_order_id') {
-                $clientsInboundsTotalAvailable = Stock::find()
-                    ->chooseOutbound()
-                    ->statusAvailable($stock['status_availability'])
-                    ->client($stock['client_id'])
-                    ->addGroupBy($stock['bound'])
-                    ->all();
-
-                    if ($this->request->isAjax) {
-                        return $this->renderAjax(
-                            'groupajax',
-                            [
-                                'rows' => $clientsInboundsTotalAvailable
-                            ]
-                        );
-                    } else {
-                        return $this->render(
-                            'group',
-                            [
-                                'rows' => $clientsInboundsTotalAvailable
-                            ]
-                        );
-                    }
-            }
-
-
-        }
-
-
-
-    }
+    
 
     /**
      * Finds the Stock model based on its primary key value.

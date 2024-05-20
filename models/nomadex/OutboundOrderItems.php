@@ -46,6 +46,8 @@ class OutboundOrderItems extends \yii\db\ActiveRecord
 {
     public $accepted_qity;
     public $expected_qity;
+    public $product_name;
+    public $status;
     /**
      * {@inheritdoc}
      */

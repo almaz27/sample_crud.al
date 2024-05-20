@@ -115,7 +115,7 @@ class Stock extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels()   
     {
         return [
             'id' => 'ID',
@@ -177,8 +177,13 @@ class Stock extends \yii\db\ActiveRecord
             'deleted' => 'Deleted',
         ];
     }
-
-    
-
-    
+    public function getWithTotalBound($id, $status, $column){
+        return $this::find()
+                        ->choose($column)
+                        ->client($id)
+                        ->statusAvailable($status)
+                        ->addGroupBy($column)
+                        ->all();
+                    }             
+                    
 }

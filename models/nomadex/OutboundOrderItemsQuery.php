@@ -52,4 +52,7 @@ class OutboundOrderItemsQuery extends \yii\db\ActiveQuery
         $this->groupBy("product_name");
         return $this;
     }
+    public function getWithInbound(){
+        
+    }
 }

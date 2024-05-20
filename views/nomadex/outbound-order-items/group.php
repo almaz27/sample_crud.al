@@ -29,10 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </tr>
     <?php foreach($rows as $row): ?>
     <tr>
-        <td><?= Html::encode($row->product_name)?></td>
-        <td><?= Html::encode($row->status=='11')?'Не доступен':'Доступен' ?></td>
-        <td><?= Html::encode($row->accepted_qity)?></td>
-        <td><?= Html::encode($row->expected_qity)?></td>
+        <td><?= $row->product_name ?></td>
+        <td><?= ($row->status=='11')? 'Не доступен' : 'Доступен' ?></td>
+        <td><?= $row->accepted_qity?></td>
+        <td><?= $row->expected_qity?></td>
         
 
     </tr>

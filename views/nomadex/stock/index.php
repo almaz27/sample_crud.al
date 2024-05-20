@@ -27,9 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
         $form = ActiveForm::begin([
             'id'=> 'stock-group',
             'options' => ['class' => 'form-horizontal'],
-            'action'=> ['client-indounds-total-available', 
-                        'statusAvailable' =>yii\helpers\BaseHtml::getAttributeValue($model,'status_availability'),
-                        'client_id' =>yii\helpers\BaseHtml::getAttributeValue($model,'client_id'),
+            'action'=> ['client-bounds-total-available', 
+                        // 'statusAvailable' =>yii\helpers\BaseHtml::getAttributeValue($model,'status_availability'),
+                        // 'client_id' =>yii\helpers\BaseHtml::getAttributeValue($model,'client_id'),
                         ],
             'method'=>'POST']) ?>
     <?= 
@@ -44,32 +44,27 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ['prompt'=>'Select Client'])
                                                         ->label('Client: ',['class'=>'label-class'])
                                                     ?>
+                                                    <?= 
+        $form->field($model, 'bound')->dropdownList(
+                                                        [
+                                                            'inbound_order_id' => 'Inbound Order Id',
+                                                            'outbound_order_id' => 'Outbound Order Id',
+                                                        ],
+                                                        ['prompt'=>'Select Type Of Bound']
+                                                        )
+                                                        ->label('Client: ',['class'=>'label-class'])
+                                                    ?>
                                                
-    <div class="form-group field-stock-bound">
-        <label for="stock-bound" class="control-label"> Out/Inbound-Order-ID</label>
-        <?=Html::dropDownList('bound',
-        null,
-    	[
-    		'inbound_order_id' => 'Inbound Order Id',
-    		'outbound_order_id' => 'Outbound Order Id',
-    	],
-    	[
-    		'prompt' => [
-    			'text' => 'Select Bound',
-    			'options' => []
-    		],
-    		'id' => 'criteriaSelector',
-    		'class' => 'form-control',
-    		'required' => 'required',
-    	]); 
-        ?>
     </div>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Show Result', ['class' => 'btn btn-primary']) ?>
-
         </div>
     </div>
+    
+    
+
+
     <div id="result-of-query">
 
     </div>
