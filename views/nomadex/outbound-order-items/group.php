@@ -22,8 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
     <table class="table table-striped table-bordered">
     <tr>
-        <th><?= Html::encode($rows[0]->attributeLabels()['product_name'])?></th>
-        <th><?= Html::encode($rows[0]->attributeLabels()['status'])?></th>
+        <th><?= $rows[0]->attributeLabels()['product_name'] ?></th>
+        <th><?= $rows[0]->attributeLabels()['status'] ?></th>
         <th>Accepted Quantity</th>
         <th>Expected Quantity</th>
     </tr>

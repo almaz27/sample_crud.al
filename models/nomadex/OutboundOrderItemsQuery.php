@@ -36,23 +36,18 @@ class OutboundOrderItemsQuery extends \yii\db\ActiveQuery
             "product_name",
             "SUM(accepted_qty) AS accepted_qity", 
             "SUM(expected_qty) AS expected_qity",
-            "status"]);
-        return $this;
-
-    }
-    public function available(){
-        $this->andWhere(["status"=> 19]);
-        return $this;
-    }
-    public function notAvailable(){
-        $this->andWhere(["status"=> 11]);
+            "SUM(product_price) AS product_price_sum",
+            "SUM(allocated_qty) as allocated_qty_sum",
+            "SUM(accepted_number_places_qty) AS accepted_number_places_qty_sum",
+            "status",
+            "SUM(expected_number_places_qty) AS expected_number_places_qty_sum",
+            "COUNT(*) AS ROWS "]);   
         return $this;
     }
-    public function byProduct(){
+   
+    public function byProductAndStatus(){
         $this->groupBy("product_name");
         return $this;
     }
-    public function getWithInbound(){
-        
-    }
+   
 }

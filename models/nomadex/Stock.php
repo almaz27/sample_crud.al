@@ -69,6 +69,14 @@ class Stock extends \yii\db\ActiveRecord
 {
     public $cnt = 0;
     public $total = 0;
+    const SCENARIO_REPORT = 'scenarioreport';
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_REPORT => ['outbound_picking_list_barcode', 'product_name', 'product_barcode',' product_model',' box_barcode',' status',' status_availability',' primary_address',' secondary_address',' id'],
+
+        ];
+    }
     /**
      * {@inheritdoc}
      * @return StockQuery the active query used by this AR class.

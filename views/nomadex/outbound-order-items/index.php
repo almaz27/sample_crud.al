@@ -37,20 +37,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ->label('Availability status: ',['class'=>'label-class'])
                                                     ?>
                                                
-   
+                                               
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Show Result', ['class' => 'btn btn-primary']) ?>
-
         </div>
     </div>
+
     <div id="result-of-query">
 
     </div>
 
 <?php ActiveForm::end() ?>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

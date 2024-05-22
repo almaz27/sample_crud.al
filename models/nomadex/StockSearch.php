@@ -14,6 +14,7 @@ class StockSearch extends Stock
     /**
      * {@inheritdoc}
      */
+    
     public function rules()
     {
         return [
@@ -38,7 +39,7 @@ class StockSearch extends Stock
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$limit=40)
     {
         $query = Stock::find();
 
@@ -46,6 +47,10 @@ class StockSearch extends Stock
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination'=>[
+                'pageSize' => intval($limit),
+                
+            ],
         ]);
 
         $this->load($params);

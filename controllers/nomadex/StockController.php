@@ -27,25 +27,23 @@ class StockController extends Controller
         }
         $stockForm = new StockForm();
 
-        if($stockForm->load($this->request->post())) {
+        if ($stockForm->load($this->request->post())) {
             $stock = (new Stock())->getWithTotalBound(
                 $stockForm->client_id,
                 $stockForm->status_availability,
                 $stockForm->bound,
             );
-            return $this->renderAjax('groupajax',[
-                'rows'=>$stock,
-                'model'=>$stockForm ]
+            return $this->renderAjax(
+                'groupajax',
+                [
+                    'rows' => $stock,
+                    'model' => $stockForm
+                ]
             );
         }
-
-        
-
-        
-        
     }
 
-    
+
     /**
      * @inheritDoc
      */
@@ -106,8 +104,9 @@ class StockController extends Controller
             'bounds' => $bound
         ]);
     }
-    public function actionGridView(){
-        
+    public function actionGridView()
+    {
+
     }
 
     /**
@@ -122,7 +121,7 @@ class StockController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-    
+
     /**
      * Creates a new Stock model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -178,8 +177,14 @@ class StockController extends Controller
 
         return $this->redirect(['index']);
     }
+    public function actionListFilter(){
+        return $this->render('list', 
+                                ['list'=>
+                                ['index 1','index 2','index 3','index 4','index 5']]
+                            );
+    }
 
-    
+
 
     /**
      * Finds the Stock model based on its primary key value.

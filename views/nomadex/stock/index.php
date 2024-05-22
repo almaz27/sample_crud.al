@@ -22,6 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Add item to stock', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <p>
+        <?= Html::a('Отчеты: коробка на отгрузке', ['list-filter'], ['class' => 'btn btn-primary']) ?>
+    </p>
     
     <?php 
         $form = ActiveForm::begin([
@@ -72,21 +75,21 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php ActiveForm::end() ?>
 
 
-     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+     <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 <p class="text-success" id="stock-grid-view"> <?= 'Stock table has '.strval($dataProvider->getTotalCount()).' rows, show them? '?></p>
 
 <?= GridView::widget([
     'id'=>'stock-grid',
     'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
+    // 'filterModel' => $searchModel,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        // ['class' => 'yii\grid\SerialColumn'],
 
         'id',
-        'scan_in_employee_id',
-        'scan_out_employee_id',
-        'client_id',
-        'inbound_order_id',
+        // 'scan_in_employee_id',
+        // 'scan_out_employee_id',
+        // 'client_id',
+        // 'inbound_order_id',
         //'consignment_inbound_id',
         //'inbound_order_item_id',
         //'inbound_order_number',
@@ -94,33 +97,33 @@ $this->params['breadcrumbs'][] = $this->title;
         //'consignment_outbound_id',
         //'outbound_order_item_id',
         //'outbound_picking_list_id',
-        //'outbound_picking_list_barcode',
+        'outbound_picking_list_barcode',
         //'stock_adjustment_id',
         //'stock_adjustment_status',
         //'outbound_order_number',
         //'warehouse_id',
         //'zone',
         //'product_id',
-        //'product_name',
-        //'product_barcode',
-        //'product_model',
+        'product_name',
+        'product_barcode',
+        'product_model',
         //'product_sku',
         //'is_product_type',
-        //'box_barcode',
+        'box_barcode',
         //'box_size_barcode',
         //'box_size_m3',
         //'box_kg',
         //'condition_type',
-        //'status',
+        'status',
         //'pick_list_status',
-        //'status_availability',
+        'status_availability',
         //'status_lost',
         //'inventory_id',
         //'inventory_primary_address',
         //'inventory_secondary_address',
         //'status_inventory',
-        //'primary_address',
-        //'secondary_address',
+        'primary_address',
+        'secondary_address',
         //'address_pallet_qty',
         //'address_sort_order',
         //'kpi_value',
@@ -139,12 +142,12 @@ $this->params['breadcrumbs'][] = $this->title;
         //'created_at',
         //'updated_at',
         //'deleted',
-        [
-            'class' => ActionColumn::className(),
-            'urlCreator' => function ($action, Stock $model, $key, $index, $column) {
-                return Url::toRoute([$action, 'id' => $model->id]);
-                }
-        ],
+        // [
+        //     'class' => ActionColumn::className(),
+        //     'urlCreator' => function ($action, Stock $model, $key, $index, $column) {
+        //         return Url::toRoute([$action, 'id' => $model->id]);
+        //         }
+        // ],
     ],
 ]); ?>
 

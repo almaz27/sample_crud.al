@@ -43,12 +43,12 @@ class StockQuery extends \yii\db\ActiveQuery
     }
 
     public function statusAvailable($status){
-        $this->andWhere(["status_availability"=>$status]);
+        $this->andWhere(["status_availability" => $status]);
         return $this;
 
    }
    public function client($id){
-       $this->andWhere(["client_id"=>$id]);
+       $this->andWhere(["client_id" => $id]);
        return $this;
    }
    public function addGroupBy($columns){
