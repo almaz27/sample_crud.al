@@ -1,10 +1,5 @@
 <?php
-
-use app\models\nomadex\Stock;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
@@ -41,13 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ['prompt'=>'Select Status'])
                                                         ->label('Availability status: ',['class'=>'label-class'])
                                                     ?>
-        <?= 
+    <?= 
         $form->field($model, 'client_id')->dropdownList(
                                                         $clients,
                                                         ['prompt'=>'Select Client'])
                                                         ->label('Client: ',['class'=>'label-class'])
                                                     ?>
-                                                    <?= 
+    <?= 
         $form->field($model, 'bound')->dropdownList(
                                                         [
                                                             'inbound_order_id' => 'Inbound Order Id',
@@ -58,19 +53,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ->label('Client: ',['class'=>'label-class'])
                                                     ?>
                                                
+</div>
+
+<div class="form-group">
+    <div class="col-lg-offset-1 col-lg-11">
+        <?= Html::submitButton('Show Result', ['class' => 'btn btn-primary']) ?>
     </div>
-    <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Show Result', ['class' => 'btn btn-primary']) ?>
-        </div>
-    </div>
+</div>
     
     
 
 
-    <div id="result-of-query">
-
-    </div>
+<div id="result-of-query">
+</div>
 
 <?php ActiveForm::end() ?>
 

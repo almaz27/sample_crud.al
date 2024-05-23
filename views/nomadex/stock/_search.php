@@ -44,14 +44,14 @@ use yii\widgets\ActiveForm;
             <?= Html::submitButton('Search', ['class' => 'btn btn-primary col-xs-6 col-md-2']) ?>
             <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary col-xs-6 col-md-2']) ?>
     </div>
-    <?= Html::a('Профиль', ['csv-creator/index', 
+    <?= Html::a('Convert to csv', ['csv-creator/index', 
                                 'model'=>$model
                             ],
                             ['class' => ['btn', 'btn-info', 'btn-sm']]) ?>
-
-
-    
-            
+    <?= Html::a('Convert to excel', ['csv-creator/export-to-excel', 
+                                'model'=>$model
+                            ],
+                            ['class' => ['btn', 'btn-info', 'btn-sm']]) ?>            
 
 
     <?php //$form->field($model, 'id') ?>
