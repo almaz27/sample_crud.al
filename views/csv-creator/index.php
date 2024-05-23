@@ -23,7 +23,7 @@ $headers = ['outbound_picking_list_barcode',
             'primary_address',
             'secondary_address',
             'id'];
-   
+    
 
 //Enter headers of columns 
 fputcsv($fp, $headers); 

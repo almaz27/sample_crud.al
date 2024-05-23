@@ -65,6 +65,7 @@ header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetm
 $writer = new Xlsx($spreadsheet);
 
 $writer->save('outbound-orders-' . date('d-m-Y_H-i-s') . '.xlsx');
+exit;
 
 ?>
 <p>Hello From Excell</p>

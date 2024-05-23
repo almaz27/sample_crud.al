@@ -7,28 +7,20 @@ use yii\widgets\ActiveForm;
 /** @var app\models\nomadex\StockSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Stocks';
+$this->title = 'Отчет короба на отгрузке';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stock-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Add item to stock', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    
     
     
 
 
+    <?php  echo $this->render('_search', ['model' => $searchModel, 'status'=>$status]); ?>
 
-
-
-     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
-<p class="text-success" id="stock-grid-view"> <?= 'Stock table has '.strval($dataProvider->getTotalCount()).' rows, show them? '?></p>
-
-<?= GridView::widget([
+     <?= GridView::widget([
     'id'=>'stock-grid',
     'dataProvider' => $dataProvider,
     // 'filterModel' => $searchModel,
@@ -42,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         // 'inbound_order_id',
         //'consignment_inbound_id',
         //'inbound_order_item_id',
-        //'inbound_order_number',
+        'inbound_order_number',
         //'outbound_order_id',
         //'consignment_outbound_id',
         //'outbound_order_item_id',
@@ -100,7 +92,16 @@ $this->params['breadcrumbs'][] = $this->title;
         // ],
     ],
 ]); ?>
+<?= Html::a('Convert to csv', ['csv-creator/export-to-csv', 
+                                'model'=>$dataProvider
+                            ],
+                            ['class' => ['btn', 'btn-info', 'btn-sm']]) ?>
+    <?= Html::a('Convert to excel', ['csv-creator/export-to-excel', 
+                                'model'=>$dataProvider
+                            ],
+                            ['class' => ['btn', 'btn-info', 'btn-sm']]) ?>     
 
 
 
 </div>
+

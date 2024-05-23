@@ -12,46 +12,39 @@ use yii\widgets\ActiveForm;
 <div class="stock-search">
 <p>Искать товар из склада</p>
     <?php $form = ActiveForm::begin([
-
-        'action' => ['index'],
+        'action' => ['task-one'],
         'method' => 'get',
         'options' => ['class' => ['form-horizontal','container-fluid']],
-
-
-        
-
     ]); ?>
    
     <div class="row">
         <div class="col-xs-6 col-sm-2 col-md-4">
-            <?=  $form->field($model, 'inbound_order_number', ) ?>
+            <?=  $form->field($model, 'inbound_order_number', )->label('Номер входящего заказа') ?>
         </div>     
         <div class="col-xs-6 col-sm-2 col-md-4">
-                <?= $form->field($model, 'product_name',) ?>
+                <?= $form->field($model, 'product_name',)->label('Наименование товара') ?>
         </div>
         <div class="col-xs-6 col-sm-2 col-md-4">
-                <?= $form->field($model, 'outbound_order_number',) ?>
+                <?= $form->field($model, 'box_barcode',)->label('ШК короба') ?>
         </div>
         <div class="col-xs-6 col-sm-2 col-md-4">
-                <?= $form->field($model, 'box_barcode',) ?>
+                <?= $form->field($model, 'primary_address',)->label('Место отгружения') ?>
         </div>
         <div class="col-xs-6 col-sm-2 col-md-4">
-                <?= $form->field($model, 'status',) ?>
+                <?= $form->field($model, 'status',)->label('Статус') ?>
         </div>
                 
     </div>
     <div class="form-group row">
-            <?= Html::submitButton('Search', ['class' => 'btn btn-primary col-xs-6 col-md-2']) ?>
-            <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary col-xs-6 col-md-2']) ?>
+
+                <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary col-xs-6 col-md-2']) ?>
+
+                <?= Html::resetButton('Очистить поиск', ['class' => 'btn btn-warning col-xs-6 col-md-2']) ?>
+
+            
     </div>
-    <?= Html::a('Convert to csv', ['csv-creator/index', 
-                                'model'=>$model
-                            ],
-                            ['class' => ['btn', 'btn-info', 'btn-sm']]) ?>
-    <?= Html::a('Convert to excel', ['csv-creator/export-to-excel', 
-                                'model'=>$model
-                            ],
-                            ['class' => ['btn', 'btn-info', 'btn-sm']]) ?>            
+
+           
 
 
     <?php //$form->field($model, 'id') ?>

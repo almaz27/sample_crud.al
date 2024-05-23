@@ -2,6 +2,7 @@
 namespace app\controllers;
 use Yii;
 use app\models\nomadex\StockSearch;
+use Phpoffice\PHPExcel;
 
 
 class CsvCreatorController extends \yii\web\Controller{
@@ -23,6 +24,12 @@ class CsvCreatorController extends \yii\web\Controller{
     $dataProvider = $searchModel->search($this->request->queryParams);
     return $this->render("excel",["dataProvider"=>$dataProvider]);;
   }
+  public function actionExportToCsv(){
+
+    $searchModel = new StockSearch();
+    $dataProvider = $searchModel->search($this->request->queryParams);
+    return $this->render("csv",["dataProvider"=>$dataProvider]);
+}
   /*
   * Export to excel
   *
@@ -123,7 +130,7 @@ class CsvCreatorController extends \yii\web\Controller{
       header('Content-Disposition: attachment;filename="outbound-orders-' . date('d-m-Y_H-i-s') . '.xlsx"');
       header('Cache-Control: max-age=0');
 
-      $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
       $objWriter->save('php://output');
       Yii::$app->end();
   }

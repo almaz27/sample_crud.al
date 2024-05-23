@@ -71,7 +71,22 @@ class StockController extends Controller
     {
         $searchModel = new StockSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $model = new StockForm();
+        
+
+        
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
+            
+        ]);
+    }
+    public function actionTaskOne(){
+        $searchModel = new StockSearch();
+
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
 
         $statusArray = Stock::find()->select('status_availability')->distinct(true)->asArray()->all();
         $clientArray = Stock::find()->select('client_id')->distinct(true)->asArray()->all();
@@ -94,20 +109,20 @@ class StockController extends Controller
             $clients[strval($sta['client_id'])] = $sta['client_id'];
 
         }
-
-        return $this->render('index', [
+        return $this->render('index-t1', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $model,
             'status' => $status,
             'clients' => $clients,
             'bounds' => $bound
         ]);
     }
-    public function actionGridView()
-    {
+   
 
-    }
+
+
+
+
 
     /**
      * Displays a single Stock model.
